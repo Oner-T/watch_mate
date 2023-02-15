@@ -1,17 +1,8 @@
 from rest_framework import serializers
 from watchlist_app.models import WatchList, StreamPlatform
 
-class StreamPlatformSerializer(serializers.ModelSerializer):
-    
-    len_name = serializers.SerializerMethodField()
-    
-    class Meta:
-        model = StreamPlatform
-        fields = '__all__'
 
 class WatchListSerializer(serializers.ModelSerializer):
-    
-    len_name = serializers.SerializerMethodField()
     
     class Meta:
         model = WatchList
@@ -19,10 +10,15 @@ class WatchListSerializer(serializers.ModelSerializer):
         # fields = ['id', 'name', 'description']
         # exclude = ['active']
         
-    def get_len_name(self, object):
-        length = len(object.title)
-        return length
-            
+class StreamPlatformSerializer(serializers.ModelSerializer):
+    # watchlist = WatchListSerializer(many=True, read_only=True)
+    watchlist = serializers.StringRelatedField(many=True)
+l    
+    class Meta:
+        model = StreamPlatform
+        fields = '__all__'
+        
+    
     # def validate(self, data):
     #     if data['name'] == data['description']:
     #         raise serializers.ValidationError("Title and description should not be same")
