@@ -1,8 +1,15 @@
 from rest_framework import serializers
-from watchlist_app.models import WatchList, StreamPlatform
+from watchlist_app.models import WatchList, StreamPlatform, Review
 
+
+class ReviewSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Review
+        fields = '__all__' 
 
 class WatchListSerializer(serializers.ModelSerializer):
+    reviews = ReviewSerializer(many=True, read_only=True)
     
     class Meta:
         model = WatchList
@@ -12,13 +19,14 @@ class WatchListSerializer(serializers.ModelSerializer):
         
 class StreamPlatformSerializer(serializers.ModelSerializer):
     # watchlist = WatchListSerializer(many=True, read_only=True)
-    watchlist = serializers.StringRelatedField(many=True)
-l    
+    watchlist = WatchListSerializer(many=True, read_only=True)
+    
     class Meta:
         model = StreamPlatform
         fields = '__all__'
         
-    
+   
+
     # def validate(self, data):
     #     if data['name'] == data['description']:
     #         raise serializers.ValidationError("Title and description should not be same")
