@@ -23,7 +23,7 @@ class WatchList(models.Model):
 class Review(models.Model):
     rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     description = models.CharField(max_length=200, null=True)
-    Watchlist = models.ForeignKey(WatchList, on_delete=models.CASCADE, related_name="reviews")
+    watchlist = models.ForeignKey(WatchList, on_delete=models.CASCADE, related_name="reviews")
     active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     update = models.DateTimeField(auto_now=True)
